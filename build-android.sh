@@ -4,7 +4,7 @@ work_dir=$(pwd)
 
 ANDROID_API_VERSION=21
 # NDK homepage: https://developer.android.com/ndk/downloads#lts-downloads
-ANDROID_NDK_VERSION=26.3.11579264
+ANDROID_NDK_VERSION=29.0.14206865
 # Android commandline tools homepage: https://developer.android.com/studio/index.html#command-line-tools-only
 CMDLINE_TOOLS_VERSION=6858069
 
@@ -98,7 +98,7 @@ function build_android() {
                 echo "Unknown target $target"
                 ;;
         esac
-        cargo build --target $target $mode
+        RUSTFLAGS="-C link-arg=-Wl,-z,max-page-size=16384" cargo build --target $target $mode
         if [ $? -ne 0 ]; then
             echo "Failed to build for target $target"
             exit 1
